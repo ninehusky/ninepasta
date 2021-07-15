@@ -15,7 +15,7 @@ router.post("/", async (req, res, next) => {
         `An entry linking ${req.body.word} to ${req.body.emoji} already exists!`
       );
     }
-    const result = await validateEntry(req.body);
+    await validateEntry(req.body);
     const entry = new Entry(req.body);
     const inserted = await entry.save();
     res.json(inserted);
