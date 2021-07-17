@@ -5,7 +5,7 @@ const router = express.Router();
 
 const { validateUser, User } = require("./schema");
 
-const { auth } = require("./middleware");
+const { auth } = require("../middleware/auth");
 
 // Create
 router.post("/", async (req, res, next) => {

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-const middlewares = require("./middlewares");
+const middlewares = require("./middleware/middlewares");
 const api = require("./api");
 const userEndpoint = require("./users");
 

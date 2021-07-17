@@ -12,7 +12,6 @@ const auth = (req, res, next) => {
     req.uid = decoded;
     return next();
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };

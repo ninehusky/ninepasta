@@ -1,4 +1,5 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 
 const emojiRegex = new RegExp("^\\p{Emoji}$", "u");
@@ -17,6 +18,10 @@ const entrySchema = mongoose.Schema({
   emoji: String,
   absurdity: String,
   description: String,
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 });
 
 const validateEntry = (entry) => {

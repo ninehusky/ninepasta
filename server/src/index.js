@@ -4,6 +4,6 @@ const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   /* eslint-disable no-console */
-  console.log(`Listening on localhost:${port}`);
+  console.log(`It didn't crash! Listening on localhost:${port}`);
   /* eslint-enable no-console */
 });

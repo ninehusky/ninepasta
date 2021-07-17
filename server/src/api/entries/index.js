@@ -2,21 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const { validateEntry, Entry } = require("./schema");
+const { auth } = require("../../middleware/auth");
 
 // Create
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
   try {
-    const existingEntry = await Entry.findOne({
-      word: req.body.word,
-      emoji: req.body.emoji,
-    });
-    if (existingEntry) {
-      throw new Error(
-        `An entry linking ${req.body.word} to ${req.body.emoji} already exists!`
-      );
-    }
     await validateEntry(req.body);
-    const entry = new Entry(req.body);
+    const entryData = getEntryData(req);
+    const entry = new Entry(entryData);
     const inserted = await entry.save();
     res.json(inserted);
   } catch (error) {
@@ -35,19 +28,12 @@ router.get("/", async (req, res, next) => {
 });
 
 // Update
-router.patch("/", async (req, res, next) => {
+router.patch("/:id", auth, async (req, res, next) => {
   try {
     await validateEntry(req.body);
-    const existingEntry = await Entry.findOne({
-      word: req.body.word,
-      emoji: req.body.emoji,
-    });
-    if (!existingEntry) {
-      throw new Error(
-        `A word mapping ${req.body.word} to ${req.body.emoji} does not exist!`
-      );
-    }
-    const entry = await Entry.findByIdAndUpdate(existingEntry._id, req.body, {
+    await checkOwnership(res, req);
+    const entryData = getEntryData(req);
+    const entry = await Entry.findByIdAndUpdate(req.params.id, entryData, {
       useFindAndModify: false,
       upsert: false,
     });
@@ -58,22 +44,39 @@ router.patch("/", async (req, res, next) => {
 });
 
 // Destroy
-router.delete("/", async (req, res, next) => {
+router.delete("/:id", auth, async (req, res, next) => {
   try {
-    const existingEntry = await Entry.findOne({
-      word: req.body.word,
-      emoji: req.body.emoji,
-    });
-    if (!existingEntry) {
-      throw new Error(
-        `A word mapping ${req.body.word} to ${req.body.emoji} does not exist!`
-      );
-    }
-    const deleted = await Entry.findByIdAndDelete(existingEntry._id);
-    res.json(deleted);
+    await checkOwnership(res, req);
+    const entry = await Entry.findByIdAndDelete(req.params.id);
+    res.json(entry);
   } catch (error) {
     next(error);
   }
 });
+
+/**
+ * Throws error if entry does not exist, or if entry is not owned by user with id in req.uid.
+ */
+const checkOwnership = async (res, req) => {
+  const existingEntry = await Entry.findById(req.params.id);
+  console.log(req.params.id);
+  if (!existingEntry) {
+    throw new Error("An entry with the given ID does not exist!");
+  } else if (existingEntry.createdBy != req.uid.uid) {
+    console.log(existingEntry.createdBy);
+    res.statusCode = 403;
+    throw new Error("You do not own this entry!");
+  }
+};
+
+const getEntryData = (req) => {
+  return {
+    word: req.body.word,
+    emoji: req.body.emoji,
+    absurdity: req.body.absurdity,
+    description: req.body.description,
+    createdBy: req.uid.uid,
+  };
+};
 
 module.exports = router;
