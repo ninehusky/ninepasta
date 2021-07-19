@@ -81,25 +81,14 @@ router.get("/login", async (req, res, next) => {
 // Update
 router.patch("/:id", auth, async (req, res, next) => {
   try {
-    const id = req.params.id;
-    if (!id) {
-      throw new Error("ID must be included!");
-    }
     await validateUser(req.body);
-    const existingUser = await User.findById(id);
-    if (!existingUser) {
-      throw new Error("A user with the given name does not exist!");
-    } else if (existingUser._id != id) {
-      console.log(existingUser.username, req.body.username);
-      console.log(existingUser._id, id);
-      throw new Error("You are not logged in as this user!");
-    }
+    await checkOwnership(req);
 
     // now check that the user isn't already taken
     const dupe = await User.findOne({
       username: req.body.username,
     });
-    if (dupe) {
+    if (dupe._id != req.params.id) {
       throw new Error("A user with that username already exists!");
     }
 
@@ -124,9 +113,22 @@ router.patch("/:id", auth, async (req, res, next) => {
 });
 
 // Destroy
+router.delete("/:id", auth, async (req, res, next) => {
+  try {
+    await checkOwnership(req);
+    await User.findByIdAndDelete(req.params.id);
+  } catch (err) {
+    next(error);
+  }
+});
 
-// check that user isn't already in database
-// hash password given object
-const insertUser = () => {};
+const checkOwnership = async (req) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    throw new Error("A user with the given ID does not exist!");
+  } else if (user._id != req.uid.uid) {
+    throw new Error("You are not logged in as this user!");
+  }
+};
 
 module.exports = router;
