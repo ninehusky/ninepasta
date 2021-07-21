@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors"); // TODO: idk what this is
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
@@ -12,10 +13,16 @@ const userEndpoint = require("./users");
 
 const app = express();
 
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(morgan("dev"));
 app.use(helmet());
-app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,

@@ -17,6 +17,7 @@ router.post("/", async (req, res, next) => {
       username: req.body.username,
     });
     if (existingUser) {
+      res.statusCode = 400;
       throw new Error(`A user with that name already exists!`);
     }
     const user = new User({
@@ -44,13 +45,14 @@ router.get("/", async (req, res, next) => {
 });
 
 // Login
-router.get("/login", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   try {
     await validateUser(req.body);
     const existingUser = await User.findOne({
       username: req.body.username,
     }).select("+password");
     if (!existingUser) {
+      res.statusCode = 403;
       throw new Error("Incorrect username/password!");
     }
     const valid = await bcrypt.compare(
@@ -70,9 +72,11 @@ router.get("/login", async (req, res, next) => {
         expiresIn: "1d",
       }
     );
-    res.json({
-      token: token,
+    res.cookie("token", token, {
+      httpOnly: true,
     });
+
+    res.json({ token });
   } catch (error) {
     next(error);
   }
