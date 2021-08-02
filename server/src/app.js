@@ -1,9 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const cors = require("cors"); // TODO: idk what this is
+const cors = require("cors");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const redis = require("redis");
 
 require("dotenv").config();
 
@@ -19,15 +20,34 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+
+const RedisStore = require("connect-redis")(session);
+const redisClient = redis.createClient();
+
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
-app.use(cookieParser());
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+app.use(
+  session({
+    name: "qid",
+    store: new RedisStore({ client: redisClient }),
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.ACCESS_TOKEN_SECRET,
+    cookie: {
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
+      secure: false,
+    },
+  })
+);
 
 app.get("/", (req, res) => {
   res.json({

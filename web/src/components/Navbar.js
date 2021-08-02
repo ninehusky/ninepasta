@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -7,12 +7,46 @@ import {
   HStack,
   useColorMode,
   Text,
+  Divider,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+import LogoutButton from './LogoutButton';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  let [body, setBody] = useState(null);
+  let location = useLocation();
+
+  useEffect(async () => {
+    let response = await fetch('http://localhost:3141/users/me', {
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      setBody(
+        <HStack spacing={3}>
+          <Link to="/login">
+            <Button>Log in</Button>
+          </Link>
+          <Link to="/register">
+            <Button colorScheme="teal">Sign up</Button>
+          </Link>
+        </HStack>
+      );
+    } else {
+      response = await response.json();
+      setBody(
+        <HStack spacing={3}>
+          <Text color="tomato">
+            <Link>{response.name}</Link>
+          </Text>
+          <LogoutButton />
+        </HStack>
+      );
+    }
+  }, [location]);
+
   return (
     <Flex
       as="nav"
@@ -20,29 +54,32 @@ const Navbar = () => {
       justify="space-between"
       wrap="wrap"
       padding={6}
+      height="5vh"
+      mb="5vh"
+      paddingLeft="20vh"
+      paddingRight="20vh"
     >
       <Flex align="center" mr={5}>
         <Link to="/">
-          <Heading as="h1" size="lg">
+          <Heading as="h1" size="lg" letterSpacing="tight">
             ninepasta!
           </Heading>
         </Link>
         <HStack spacing={3} ml={10}>
-          <Text>about</Text>
-          <Text>playground</Text>
-          <Text>glossary</Text>
+          <Text fontSize="lg" _hover={{ fontWeight: 'extrabold' }}>
+            playground
+          </Text>
+          <Text fontSize="lg" _hover={{ fontWeight: 'extrabold' }}>
+            glossary
+          </Text>
         </HStack>
       </Flex>
-      <HStack spacing={3}>
+      <HStack spacing={3} height="5vh">
         <Box onClick={toggleColorMode}>
           {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </Box>
-        <Link to="/login">
-          <Button>Log in</Button>
-        </Link>
-        <Link to="/register">
-          <Button colorScheme="teal">Sign up</Button>
-        </Link>
+        <Divider orientation="vertical" />
+        <Box>{body}</Box>
       </HStack>
     </Flex>
   );

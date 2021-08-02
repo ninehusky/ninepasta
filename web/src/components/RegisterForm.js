@@ -20,6 +20,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 
 const RegisterSchema = Yup.object().shape({
   username: Yup.string()
@@ -44,6 +45,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
+  const history = useHistory();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPass = () => setShowPassword(!showPassword);
 
@@ -81,6 +83,7 @@ const RegisterForm = () => {
             } else {
               apiError = null;
             }
+            history.push('/');
           } catch (err) {
             apiError = 'There was an error.';
           }

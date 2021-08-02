@@ -5,12 +5,13 @@ import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Login from './pages/Login';
+import Landing from './pages/Landing';
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <Router>
-        <Box height="90vh">
+        <Box>
           <Navbar />
           <Switch>
             <Route path="/register">
@@ -20,7 +21,9 @@ function App() {
               <Login />
             </Route>
             <Route path="/users">users</Route>
-            <Route path="/">home</Route>
+            <Route path="/">
+              <Landing />
+            </Route>
           </Switch>
         </Box>
       </Router>
