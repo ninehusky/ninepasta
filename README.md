@@ -10,11 +10,11 @@ Later features include
 
 ## Roadmap
 
-[ ] Entry creation page
-[ ] Entry updating page
-[ ] Entry deletion page
-[ ] Admin access point
-[ ] Typescript refactor
+- [ ] Entry creation page
+- [ ] Entry updating page
+- [ ] Entry deletion page
+- [ ] Admin access point
+- [ ] Typescript refactor
 
 ## Special Thanks
 
