@@ -66,12 +66,16 @@ const Navbar = () => {
           </Heading>
         </Link>
         <HStack spacing={3} ml={10}>
-          <Text fontSize="lg" _hover={{ fontWeight: 'extrabold' }}>
-            playground
-          </Text>
-          <Text fontSize="lg" _hover={{ fontWeight: 'extrabold' }}>
-            glossary
-          </Text>
+          <Link to="/playground">
+            <Text fontSize="lg" _hover={{ fontWeight: 'extrabold' }}>
+              playground
+            </Text>
+          </Link>
+          <Link to="/glossary">
+            <Text fontSize="lg" _hover={{ fontWeight: 'extrabold' }}>
+              glossary
+            </Text>
+          </Link>
         </HStack>
       </Flex>
       <HStack spacing={3} height="5vh">

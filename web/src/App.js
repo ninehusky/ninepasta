@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
+import Playground from './pages/Playground';
+import Glossary from './pages/Glossary';
 
 function App() {
   return (
@@ -20,7 +22,12 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/users">users</Route>
+            <Route path="/playground">
+              <Playground />
+            </Route>
+            <Route path="/glossary">
+              <Glossary />
+            </Route>
             <Route path="/">
               <Landing />
             </Route>
