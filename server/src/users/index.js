@@ -1,6 +1,5 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const { validateUser, User } = require("./schema");
@@ -28,6 +27,9 @@ router.post("/", async (req, res, next) => {
     // please don't delete the line under this
     // thanks! - management
     inserted.password = undefined;
+
+    req.session.userId = inserted._id;
+    await req.session.save();
     res.json(inserted);
   } catch (error) {
     next(error);
@@ -41,6 +43,19 @@ router.get("/", async (req, res, next) => {
     res.json(users);
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/me", auth, async (req, res, next) => {
+  if (req.session.userId) {
+    const user = await User.findById(req.session.userId);
+    res.json({
+      name: user.username,
+    });
+  } else {
+    res.json({
+      name: undefined,
+    });
   }
 });
 
@@ -63,22 +78,29 @@ router.post("/login", async (req, res, next) => {
       res.statusCode = 403; // Unauthorized
       throw new Error("Incorrect username/password!");
     }
-    const token = jwt.sign(
-      {
-        uid: existingUser._id,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
-    res.cookie("token", token, {
-      httpOnly: true,
-    });
 
-    res.json({ token });
+    req.session.userId = existingUser._id;
+    await req.session.save();
+    console.log(req.session);
+
+    existingUser.password = undefined;
+    res.json(existingUser);
   } catch (error) {
     next(error);
+  }
+});
+
+router.post("/logout", async (req, res, next) => {
+  try {
+    if (!req.session.userId) {
+      res.statusCode = 400;
+      throw new Error("You are not logged in!");
+    }
+    await req.session.destroy();
+    await res.clearCookie(req.session.name);
+    res.json({ success: "success" });
+  } catch (err) {
+    next(err);
   }
 });
 

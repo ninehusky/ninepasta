@@ -19,8 +19,8 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import Login from '../pages/Login';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
@@ -42,6 +42,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  const history = useHistory();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPass = () => setShowPassword(!showPassword);
 
@@ -85,6 +86,7 @@ const LoginForm = () => {
           } catch (err) {
             apiError = 'There was an error.';
           }
+          history.push('/');
         }}
       >
         {({ values, isSubmitting }) => (
@@ -104,9 +106,6 @@ const LoginForm = () => {
                     <FormLabel htmlFor="username">Username</FormLabel>
                     <Input {...field} id="username" placeholder="Username" />
                     <FormErrorMessage>{form.errors.username}</FormErrorMessage>
-                    <FormHelperText>
-                      Username should consist of 5-20 alphanumeric characters.
-                    </FormHelperText>
                   </FormControl>
                 )}
               </Field>
@@ -130,9 +129,6 @@ const LoginForm = () => {
                         </Button>
                       </InputRightElement>
                     </InputGroup>
-                    <FormHelperText>
-                      Password should be at least 8 characters long.
-                    </FormHelperText>
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )}

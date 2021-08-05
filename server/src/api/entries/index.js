@@ -59,11 +59,9 @@ router.delete("/:id", auth, async (req, res, next) => {
  */
 const checkOwnership = async (res, req) => {
   const existingEntry = await Entry.findById(req.params.id);
-  console.log(req.params.id);
   if (!existingEntry) {
     throw new Error("An entry with the given ID does not exist!");
   } else if (existingEntry.createdBy != req.uid.uid) {
-    console.log(existingEntry.createdBy);
     res.statusCode = 403;
     throw new Error("You do not own this entry!");
   }
