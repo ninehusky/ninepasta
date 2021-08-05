@@ -6,7 +6,7 @@ For the nth time, here's an emojifier.
 
 The goal for this project is to have a community-run repository for people to create word-emoji pairs. These word-emoji pairs are then used in the app's playground to easily generate emojipastas!
 
-Later features include
+Later features include an admin page for community moderation! More information on this can be found in the roadmap below.
 
 ## Roadmap
 
