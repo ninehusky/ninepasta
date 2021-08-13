@@ -51,6 +51,7 @@ router.get("/me", auth, async (req, res, next) => {
     const user = await User.findById(req.session.userId);
     res.json({
       name: user.username,
+      id: user._id,
     });
   } else {
     res.json({
@@ -81,7 +82,6 @@ router.post("/login", async (req, res, next) => {
 
     req.session.userId = existingUser._id;
     await req.session.save();
-    console.log(req.session);
 
     existingUser.password = undefined;
     res.json(existingUser);
@@ -97,7 +97,7 @@ router.post("/logout", async (req, res, next) => {
       throw new Error("You are not logged in!");
     }
     await req.session.destroy();
-    await res.clearCookie(req.session.name);
+    await res.clearCookie("qid");
     res.json({ success: "success" });
   } catch (err) {
     next(err);

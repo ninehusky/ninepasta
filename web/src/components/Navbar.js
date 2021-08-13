@@ -39,7 +39,11 @@ const Navbar = () => {
       setBody(
         <HStack spacing={3}>
           <Text color="tomato">
-            <Link>{response.name}</Link>
+            <Link to="/me">
+              <Text fontWeight="bold" _hover={{ fontWeight: 'extrabold' }}>
+                {response.name}
+              </Text>
+            </Link>
           </Text>
           <LogoutButton />
         </HStack>

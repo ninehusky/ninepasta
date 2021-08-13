@@ -11,7 +11,6 @@ import {
   InputRightElement,
   Alert,
   AlertIcon,
-  FormHelperText,
   Heading,
   VStack,
   Text,
@@ -19,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const LoginSchema = Yup.object().shape({
@@ -53,6 +52,8 @@ const LoginForm = () => {
       <Center>
         <VStack>
           <Heading as="h1">Log in</Heading>
+          <Text as="h2">Don't have an account?</Text>
+          <Link to="/register">Sign up!</Link>
         </VStack>
       </Center>
       <Divider m={5} />

@@ -8,6 +8,8 @@ import Login from './pages/Login';
 import Landing from './pages/Landing';
 import Playground from './pages/Playground';
 import Glossary from './pages/Glossary';
+import CreateEntry from './pages/CreateEntry';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -27,6 +29,12 @@ function App() {
             </Route>
             <Route path="/glossary">
               <Glossary />
+            </Route>
+            <Route path="/create">
+              <CreateEntry />
+            </Route>
+            <Route path="/me">
+              <Profile />
             </Route>
             <Route path="/">
               <Landing />

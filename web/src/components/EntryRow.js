@@ -1,4 +1,4 @@
-import { Tr, Td } from '@chakra-ui/react';
+import { Tr, Td, Button, HStack } from '@chakra-ui/react';
 import React from 'react';
 
 const EntryRow = props => (
@@ -7,6 +7,14 @@ const EntryRow = props => (
     <Td>{props.emoji}</Td>
     <Td>{props.absurdity}</Td>
     <Td>{props.description}</Td>
+    <HStack>
+      {props.update ? <Button id={props.id}>Update</Button> : null}
+      {props.delete ? (
+        <Button colorScheme="red" id={props.id}>
+          Delete
+        </Button>
+      ) : null}
+    </HStack>
   </Tr>
 );
 

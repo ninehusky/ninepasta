@@ -2,18 +2,22 @@ import { React, useEffect, useState } from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Button } from '@chakra-ui/react';
 
-import EntryRow from './EntryRow';
+import UpdateEntryRow from './UpdateEntryRow';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
-const EntryTable = () => {
+const UpdateTable = props => {
   const [table, setTable] = useState(null);
 
   useEffect(async () => {
-    const response = await fetch('http://localhost:3141/api/v1/entries', {
-      method: 'GET',
-      credentials: 'include',
-    });
+    console.log(props);
+    const response = await fetch(
+      'http://localhost:3141/api/v1/entries?userId=' + props.userId,
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    );
     const json = await response.json();
     setTable(json);
   }, []);
@@ -44,11 +48,14 @@ const EntryTable = () => {
         {table
           ? table.map((entry, index) => {
               return (
-                <EntryRow
+                <UpdateEntryRow
                   word={entry.word}
                   emoji={entry.emoji}
                   absurdity={entry.absurdity}
                   description={entry.description}
+                  id={entry.id}
+                  update={true}
+                  delete={true}
                   key={index}
                 />
               );
@@ -59,4 +66,4 @@ const EntryTable = () => {
   );
 };
 
-export default EntryTable;
+export default UpdateTable;

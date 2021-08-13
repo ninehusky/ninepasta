@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 const { validateEntry, Entry } = require("./schema");
 const { auth } = require("../../middleware/auth");
@@ -18,10 +19,28 @@ router.post("/", auth, async (req, res, next) => {
 });
 
 // Read
+// Get all
 router.get("/", async (req, res, next) => {
   try {
-    const items = await Entry.find({});
+    let items;
+    if (req.query.userId) {
+      items = await Entry.find({
+        createdBy: mongoose.Types.ObjectId(req.query.userId),
+      });
+    } else {
+      items = await Entry.find({});
+    }
     res.json(items);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Get one
+router.get("/:id", async (req, res, next) => {
+  try {
+    const entry = await Entry.findById(req.params.id);
+    res.json(entry);
   } catch (error) {
     next(error);
   }
@@ -61,7 +80,7 @@ const checkOwnership = async (res, req) => {
   const existingEntry = await Entry.findById(req.params.id);
   if (!existingEntry) {
     throw new Error("An entry with the given ID does not exist!");
-  } else if (existingEntry.createdBy != req.uid.uid) {
+  } else if (existingEntry.createdBy != req.session.userId) {
     res.statusCode = 403;
     throw new Error("You do not own this entry!");
   }
@@ -73,7 +92,7 @@ const getEntryData = (req) => {
     emoji: req.body.emoji,
     absurdity: req.body.absurdity,
     description: req.body.description,
-    createdBy: req.uid.uid,
+    createdBy: req.session.userId,
   };
 };
 
