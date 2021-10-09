@@ -33,7 +33,12 @@ const EntryForm = props => {
 
   return (
     <Formik
-      initialValues={{}}
+      initialValues={{
+        word: props.word,
+        emoji: props.emoji,
+        absurdity: props.absurdity,
+        description: props.description,
+      }}
       validationSchema={EntrySchema}
       onSubmit={props.onSubmit}
     >
@@ -67,11 +72,13 @@ const EntryForm = props => {
                   isInvalid={form.errors.emoji && form.touched.emoji}
                 >
                   <FormLabel htmlFor="emoji">Emoji</FormLabel>
-                  <Input {...field} id="word" placeholder="🐶" />
+                  <Input
+                    {...field}
+                    id="word"
+                    placeholder={props.emoji || '🐶'}
+                  />
                   <FormErrorMessage>{form.errors.emoji}</FormErrorMessage>
-                  <FormHelperText>
-                    What you enter should be an emoji!
-                  </FormHelperText>
+                  <FormHelperText>Enter one emoji.</FormHelperText>
                 </FormControl>
               )}
             </Field>
