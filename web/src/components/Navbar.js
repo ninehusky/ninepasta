@@ -20,10 +20,13 @@ const Navbar = () => {
   let location = useLocation();
 
   useEffect(async () => {
-    let response = await fetch('https://ninepasta.herokuapp.com/users/me', {
-      credentials: 'include',
-    });
-    if (!response.ok) {
+    let response;
+    try {
+      response = await fetch('https://ninepasta.herokuapp.com/users/me', {
+        credentials: 'include',
+      });
+    } catch (err) {}
+    if (!response) {
       setBody(
         <HStack spacing={3}>
           <Link to="/login">
