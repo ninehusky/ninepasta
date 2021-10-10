@@ -22,7 +22,9 @@ app.use(
 );
 
 const RedisStore = require("connect-redis")(session);
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+  host: process.env.REDIS_URL,
+});
 
 app.use(morgan("dev"));
 app.use(helmet());
