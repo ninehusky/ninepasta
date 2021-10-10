@@ -22,8 +22,15 @@ app.use(
 );
 
 const RedisStore = require("connect-redis")(session);
+
+console.log(process.env.REDIS_URL);
+
 const redisClient = redis.createClient({
   host: process.env.REDIS_URL,
+});
+
+redisClient.on("error", (err) => {
+  console.log(`Error: ${err}`);
 });
 
 app.use(morgan("dev"));
