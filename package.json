@@ -6,11 +6,8 @@
   "scripts": {
     "start": "cd server && yarn dev"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ninehusky/ninepasta.git"
-  },
-  "author": "",
+  "repository": "git+https://github.com/ninehusky/ninepasta.git",
+  "author": "Andrew Cheung <acheung8@uw.edu>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ninehusky/ninepasta/issues"
