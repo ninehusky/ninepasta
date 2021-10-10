@@ -64,18 +64,21 @@ const LoginForm = () => {
         validationSchema={LoginSchema}
         onSubmit={async (values, actions) => {
           try {
-            const response = await fetch('http://localhost:3141/users/login', {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              credentials: 'include',
-              body: JSON.stringify({
-                username: values.username,
-                password: values.password,
-              }),
-            });
+            const response = await fetch(
+              'https://ninepasta.herokuapp.com/users/login',
+              {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                  username: values.username,
+                  password: values.password,
+                }),
+              }
+            );
             const json = await response.json();
             if (!response.ok) {
               apiError = json.message;

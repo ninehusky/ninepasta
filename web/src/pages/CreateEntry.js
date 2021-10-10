@@ -8,20 +8,23 @@ const CreateEntry = () => {
   const toast = useToast();
   const onSubmit = async (values, actions) => {
     try {
-      const response = await fetch('http://localhost:3141/api/v1/entries/', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          word: values.word,
-          emoji: values.emoji,
-          absurdity: values.absurdity,
-          description: values.description,
-        }),
-      });
+      const response = await fetch(
+        'https://ninepasta.herokuapp.com/api/v1/entries/',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            word: values.word,
+            emoji: values.emoji,
+            absurdity: values.absurdity,
+            description: values.description,
+          }),
+        }
+      );
       const json = await response.json();
       if (!response.ok) {
         apiError = json.message;

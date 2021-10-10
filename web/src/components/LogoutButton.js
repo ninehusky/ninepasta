@@ -6,10 +6,13 @@ const LogoutButton = () => {
   const history = useHistory();
 
   const logout = async () => {
-    const response = await fetch('http://localhost:3141/users/logout', {
-      method: 'POST',
-      credentials: 'include',
-    });
+    const response = await fetch(
+      'https://ninepasta.herokuapp.com/users/logout',
+      {
+        method: 'POST',
+        credentials: 'include',
+      }
+    );
     if (!response.ok) {
       console.error(response);
     }

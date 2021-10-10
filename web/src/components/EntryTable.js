@@ -10,10 +10,13 @@ const EntryTable = () => {
   const [table, setTable] = useState(null);
 
   useEffect(async () => {
-    const response = await fetch('http://localhost:3141/api/v1/entries', {
-      method: 'GET',
-      credentials: 'include',
-    });
+    const response = await fetch(
+      'https://ninepasta.herokuapp.com/api/v1/entries',
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    );
     const json = await response.json();
     setTable(json);
   }, []);

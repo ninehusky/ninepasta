@@ -65,17 +65,20 @@ const RegisterForm = () => {
         validationSchema={RegisterSchema}
         onSubmit={async (values, actions) => {
           try {
-            const response = await fetch('http://localhost:3141/users', {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                username: values.username,
-                password: values.password,
-              }),
-            });
+            const response = await fetch(
+              'https://ninepasta.herokuapp.com/users',
+              {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  username: values.username,
+                  password: values.password,
+                }),
+              }
+            );
             if (!response.ok) {
               const json = await response.json();
               apiError = json.message;

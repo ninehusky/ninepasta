@@ -20,7 +20,7 @@ const Navbar = () => {
   let location = useLocation();
 
   useEffect(async () => {
-    let response = await fetch('http://localhost:3141/users/me', {
+    let response = await fetch('https://ninepasta.herokuapp.com/users/me', {
       credentials: 'include',
     });
     if (!response.ok) {

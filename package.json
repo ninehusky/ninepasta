@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "For the nth time, here's an emojifier.",
   "main": "index.js",
+  "homepage": "https://github.com/ninehusky/ninepasta#readme",
   "scripts": {
-    "start": "cd server && yarn dev"
+    "start": "cd server && yarn dev",
+    "build": "cd web && npm run build && rm -rf ../docs && mv build ../docs",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": "git+https://github.com/ninehusky/ninepasta.git",
   "author": "Andrew Cheung <acheung8@uw.edu>",
@@ -12,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ninehusky/ninepasta/issues"
   },
-  "homepage": "https://github.com/ninehusky/ninepasta#readme"
+  "dependencies": {
+    "gh-pages": "^3.2.3",
+    "react-scripts": "^4.0.3"
+  }
 }

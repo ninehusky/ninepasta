@@ -37,7 +37,7 @@ const UpdateTable = props => {
 
   const loadTable = async () => {
     const response = await fetch(
-      'http://localhost:3141/api/v1/entries?userId=' + props.userId,
+      'https://ninepasta.herokuapp.com/api/v1/entries?userId=' + props.userId,
       {
         method: 'GET',
         credentials: 'include',
@@ -50,7 +50,7 @@ const UpdateTable = props => {
   const deleteEntry = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3141/api/v1/entries/${entry._id}`,
+        `https://ninepasta.herokuapp.com/api/v1/entries/${entry._id}`,
         {
           method: 'DELETE',
           headers: {
@@ -86,7 +86,7 @@ const UpdateTable = props => {
   const onSubmit = async (values, actions) => {
     try {
       const response = await fetch(
-        `http://localhost:3141/api/v1/entries/${entry._id}`,
+        `https://ninepasta.herokuapp.com/api/v1/entries/${entry._id}`,
         {
           method: 'PATCH',
           headers: {
