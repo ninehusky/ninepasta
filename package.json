@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "For the nth time, here's an emojifier.",
   "main": "index.js",
-  "homepage": "https://ninehusky.github.io/ninepasta/",
   "scripts": {
     "start": "cd server && yarn dev",
     "build-it": "cd web && npm run build && rm -rf ../docs && mv build ../docs",
