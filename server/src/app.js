@@ -46,7 +46,7 @@ app.use(
     saveUninitialized: false,
     secret: process.env.ACCESS_TOKEN_SECRET,
     cookie: {
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       secure: false,
