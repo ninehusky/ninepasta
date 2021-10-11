@@ -83,7 +83,8 @@ router.post("/login", async (req, res, next) => {
     req.session.userId = existingUser._id;
     await req.session.save();
 
-    console.log("SAVED: " + req.session);
+    console.log("SAVED: ");
+    console.log(req.session);
 
     existingUser.password = undefined;
     res.json(existingUser);
