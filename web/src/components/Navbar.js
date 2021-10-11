@@ -26,7 +26,7 @@ const Navbar = () => {
         credentials: 'include',
       });
     } catch (err) {}
-    if (!response.ok) {
+    if (!response?.ok) {
       setBody(
         <HStack spacing={3}>
           <Link to="/login">
