@@ -17,10 +17,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin:
-      process.env.NODE_ENV === "development"
-        ? "localhost:3141"
-        : "http://ninepasta.me",
+    origin: "http://ninepasta.me",
   })
 );
 
