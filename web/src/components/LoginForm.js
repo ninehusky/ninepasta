@@ -72,7 +72,7 @@ const LoginForm = () => {
                   Accept: 'application/json',
                   'Content-Type': 'application/json',
                 },
-                credentials: 'include',
+                credentials: 'same-origin',
                 body: JSON.stringify({
                   username: values.username,
                   password: values.password,

@@ -17,7 +17,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    exposedHeaders: "Set-Cookie",
+    allowedHeaders: "Set-Cookie",
     origin:
       process.env.NODE_ENV === "development"
         ? "localhost:3141"
