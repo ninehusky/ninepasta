@@ -18,7 +18,10 @@ app.use(
   cors({
     credentials: true,
     exposedHeaders: "Set-Cookie",
-    origin: "http://ninepasta.me",
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "localhost:3141"
+        : "http://ninepasta.me",
   })
 );
 
@@ -50,7 +53,7 @@ app.use(
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
-      secure: true,
+      secure: false,
     },
   })
 );

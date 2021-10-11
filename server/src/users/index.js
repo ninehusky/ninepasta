@@ -68,7 +68,7 @@ router.post("/login", async (req, res, next) => {
       username: req.body.username,
     }).select("+password");
     if (!existingUser) {
-      // res.statusCode = 403;
+      res.statusCode = 403;
       throw new Error("Incorrect username/password!");
     }
     const valid = await bcrypt.compare(
@@ -76,7 +76,7 @@ router.post("/login", async (req, res, next) => {
       existingUser.password
     );
     if (!valid) {
-      // res.statusCode = 403; // Unauthorized
+      res.statusCode = 403; // Unauthorized
       throw new Error("Incorrect username/password!");
     }
 
@@ -88,7 +88,6 @@ router.post("/login", async (req, res, next) => {
 
     existingUser.password = undefined;
     res.json(existingUser);
-    // res.json("asdf");
   } catch (error) {
     return next(error);
   }
