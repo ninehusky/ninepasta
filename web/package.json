@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "homepage": "https://ninehusky.github.io/ninepasta/",
+  "homepage": "http://ninepasta.me",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
