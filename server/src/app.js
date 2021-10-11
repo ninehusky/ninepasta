@@ -17,7 +17,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "http://ninepasta.me",
+    origin: "https://ninepasta.me",
   })
 );
 
